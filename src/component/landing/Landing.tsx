@@ -20,7 +20,7 @@ const WarningModal = () => {
   );
 }
 
-const BaseUrl = 'http://localhost:5000';
+const baseUrl = 'http://localhost:5000';
 
 interface IFileList {
   loading: boolean;
@@ -46,17 +46,17 @@ const FileList = ({ fileList, loading, onFileSeletect }: IFileList) => {
 }
 
 const Landing = () => {
-  const { data: fileList, loading: fileListLoading, error: fileListError } = useFetch<string[]>(`${BaseUrl}/list`);
+  const { data: fileList, loading: fileListLoading, error: fileListError } = useFetch<string[]>(`${baseUrl}/list`);
   const [selectedFile, setSelectedFile] = useState<string | undefined>(undefined);
   const onFileSeletect = (file: string) => {
     setSelectedFile(file);
   }
 
   const selectedFileUrl = useMemo(() => {
-    return `${BaseUrl}/download/${selectedFile}`
+    return `${baseUrl}/download/${selectedFile}`
   }, [selectedFile]);
   const selectedFileAnnotationsUrl = useMemo(() => {
-    return `${BaseUrl}/get?filename=${selectedFile}`
+    return `${baseUrl}/get?filename=${selectedFile}`
   }, [selectedFile]);
   const { data: annotations } = useFetch<IAnnotation[]>(selectedFileAnnotationsUrl);
 
