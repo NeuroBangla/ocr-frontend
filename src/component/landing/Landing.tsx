@@ -1,7 +1,24 @@
 import React, { useMemo, useState } from 'react';
 import { useFetch } from '../../netwrork/network';
-import { List } from 'antd';
+import { List, Modal } from 'antd';
 import { PixMark, IAnnotation } from 'pixmark/dist';
+
+const WarningModal = () => {
+  const [open, setOpen] = useState(true);
+  return (
+    <Modal
+      title="Warning"
+      closable
+      footer={null}
+      onCancel={() => setOpen(false)}
+      open={open}
+    >
+      <div style={{ color: 'red' }}>
+        This is just a DEMO. It is not connected to any OCR service. The annotations are hardcoded to give you example of what you are going to get. For a real use case, you need to connect to an OCR service. And for that you need to contact with me.
+      </div>
+    </Modal>
+  );
+}
 
 const BaseUrl = 'http://localhost:5000';
 
@@ -46,6 +63,7 @@ const Landing = () => {
 
   return (
     <div style={{ display: 'flex' }}>
+      <WarningModal />
       <FileList fileList={fileList} loading={fileListLoading} error={fileListError} onFileSeletect={onFileSeletect} />
       <PixMark annotations={annotations || []} src={selectedFileUrl} />
     </div>
