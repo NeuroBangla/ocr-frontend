@@ -47,7 +47,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "predeploy": "yarn build",
+    "predeploy": "pnpm build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
