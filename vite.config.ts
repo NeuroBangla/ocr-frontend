@@ -25,6 +25,9 @@ export default defineConfig({
     outDir: './build',
   },
   base: './',
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
   plugins: [
     react(),
     svgrPlugin({
