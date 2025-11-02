@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useFetch } from '../../netwrork/network';
-import { List, Modal } from 'antd';
+import { List, Modal, Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { PixMark, IAnnotation } from 'pixmark/dist';
 
 const WarningModal = () => {
@@ -60,11 +61,27 @@ const Landing = () => {
   }, [selectedFile]);
   const { data: annotations } = useFetch<IAnnotation[]>(selectedFileAnnotationsUrl);
 
+  const uploadProps = {
+    name: 'image',
+    action: `${baseUrl}/predict`,
+    onChange(info: any) {
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} upload failed.`);
+      }
+    },
+  };
 
   return (
     <div style={{ display: 'flex' }}>
       <WarningModal />
-      <FileList fileList={fileList} loading={fileListLoading} error={fileListError} onFileSeletect={onFileSeletect} />
+      <div style={{ marginRight: '20px' }}>
+        <FileList fileList={fileList} loading={fileListLoading} error={fileListError} onFileSeletect={onFileSeletect} />
+        <Upload {...uploadProps}>
+          <Button icon={<UploadOutlined />}>Upload Image</Button>
+        </Upload>
+      </div>
       <PixMark annotations={annotations || []} src={selectedFileUrl} />
     </div>
   );
